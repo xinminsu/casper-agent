@@ -30,11 +30,30 @@ else
     echo "⚠️  CASPER_ENABLED is not set to true"
 fi
 
-# Check CASPER_API_KEY (optional)
-if grep -q "CASPER_API_KEY=" .env && ! grep -q "^CASPER_API_KEY=$" .env; then
-    echo "✅ CASPER_API_KEY is set"
+# Check CASPER_RPC_URL (Critical)
+if grep -q "CASPER_RPC_URL=" .env && ! grep -q "^CASPER_RPC_URL=$" .env; then
+    echo "✅ CASPER_RPC_URL is set"
+    RPC_URL=$(grep "CASPER_RPC_URL=" .env | head -1 | cut -d'=' -f2-)
+    echo "   URL: $RPC_URL"
 else
-    echo "ℹ️  CASPER_API_KEY is not set (may be optional)"
+    echo "❌ CASPER_RPC_URL is NOT set or empty"
+    echo "   This is REQUIRED for Casper blockchain interaction"
+    echo "   Add to .env: CASPER_RPC_URL=https://rpc.testnet.cspr.cloud/rpc"
+fi
+
+# Check CASPER_NETWORK
+if grep -q "CASPER_NETWORK=" .env && ! grep -q "^CASPER_NETWORK=$" .env; then
+    NETWORK=$(grep "CASPER_NETWORK=" .env | head -1 | cut -d'=' -f2-)
+    echo "✅ CASPER_NETWORK is set to: $NETWORK"
+else
+    echo "⚠️  CASPER_NETWORK is not set (defaulting to testnet)"
+fi
+
+# Check CASPER_RPC_API_KEY (optional)
+if grep -q "CASPER_RPC_API_KEY=" .env && ! grep -q "^CASPER_RPC_API_KEY=$" .env; then
+    echo "✅ CASPER_RPC_API_KEY is set (authenticated RPC)"
+else
+    echo "ℹ️  CASPER_RPC_API_KEY is not set (using public RPC)"
 fi
 
 echo ""

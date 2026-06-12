@@ -30,11 +30,30 @@ if ($envContent -match "CASPER_ENABLED=true") {
     Write-Host "⚠️  CASPER_ENABLED is not set to true" -ForegroundColor Yellow
 }
 
-# Check CASPER_API_KEY (optional)
-if ($envContent -match "CASPER_API_KEY=.+" -and $envContent -notmatch "^CASPER_API_KEY=$") {
-    Write-Host "✅ CASPER_API_KEY is set" -ForegroundColor Green
+# Check CASPER_RPC_URL (Critical)
+if ($envContent -match "CASPER_RPC_URL=.+" -and $envContent -notmatch "^CASPER_RPC_URL=$") {
+    Write-Host "✅ CASPER_RPC_URL is set" -ForegroundColor Green
+    $rpcUrl = ($envContent -split "`n" | Where-Object { $_ -match "^CASPER_RPC_URL=" } | Select-Object -First 1).Split('=')[1]
+    Write-Host "   URL: $rpcUrl" -ForegroundColor Cyan
 } else {
-    Write-Host "ℹ️  CASPER_API_KEY is not set (may be optional)" -ForegroundColor Cyan
+    Write-Host "❌ CASPER_RPC_URL is NOT set or empty" -ForegroundColor Red
+    Write-Host "   This is REQUIRED for Casper blockchain interaction" -ForegroundColor Yellow
+    Write-Host "   Add to .env: CASPER_RPC_URL=https://rpc.testnet.cspr.cloud/rpc" -ForegroundColor Yellow
+}
+
+# Check CASPER_NETWORK
+if ($envContent -match "CASPER_NETWORK=.+" -and $envContent -notmatch "^CASPER_NETWORK=$") {
+    $network = ($envContent -split "`n" | Where-Object { $_ -match "^CASPER_NETWORK=" } | Select-Object -First 1).Split('=')[1]
+    Write-Host "✅ CASPER_NETWORK is set to: $network" -ForegroundColor Green
+} else {
+    Write-Host "⚠️  CASPER_NETWORK is not set (defaulting to testnet)" -ForegroundColor Yellow
+}
+
+# Check CASPER_RPC_API_KEY (optional)
+if ($envContent -match "CASPER_RPC_API_KEY=.+" -and $envContent -notmatch "^CASPER_RPC_API_KEY=$") {
+    Write-Host "✅ CASPER_RPC_API_KEY is set (authenticated RPC)" -ForegroundColor Green
+} else {
+    Write-Host "ℹ️  CASPER_RPC_API_KEY is not set (using public RPC)" -ForegroundColor Cyan
 }
 
 Write-Host ""
