@@ -1,66 +1,66 @@
-# @suxinmin/plugin-casper 集成说明
+# @suxinmin/plugin-casper Integration Guide
 
-## 概述
-本项目已成功集成 `@suxinmin/plugin-casper` 插件，用于增强 ElizaOS agent 的功能。
+## Overview
+This project has successfully integrated the `@suxinmin/plugin-casper` plugin to enhance the ElizaOS agent's functionality.
 
-## 已完成的配置
+## Completed Configuration
 
 ### 1. package.json
-已在依赖中添加：
+Added to dependencies:
 ```json
 "@suxinmin/plugin-casper": "latest"
 ```
 
 ### 2. character.ts
-已在角色配置的 plugins 数组中添加条件加载：
+Added conditional loading in the character's plugins array:
 ```typescript
 // Casper plugin
 ...(process.env.CASPER_ENABLED?.trim() === 'true' ? ['@suxinmin/plugin-casper'] : []),
 ```
 
-### 3. 环境变量配置
-- `.env.example` 中添加了示例配置
-- `.env` 中已启用插件：`CASPER_ENABLED=true`
+### 3. Environment Variable Configuration
+- Added example configuration in `.env.example`
+- Enabled plugin in `.env`: `CASPER_ENABLED=true`
 
-## 使用方法
+## Usage
 
-### 启用插件
-确保在 `.env` 文件中设置：
+### Enable Plugin
+Make sure to set in `.env` file:
 ```env
 CASPER_ENABLED=true
 ```
 
-### 禁用插件
-如需禁用插件，设置：
+### Disable Plugin
+To disable the plugin, set:
 ```env
 CASPER_ENABLED=false
 ```
-或删除该行。
+or remove the line.
 
-## 安装依赖
+## Install Dependencies
 
-运行以下命令安装新添加的插件：
+Run the following command to install the newly added plugin:
 ```bash
 bun install
-# 或
+# or
 npm install
 ```
 
-## 注意事项
+## Notes
 
-1. 插件会根据 `CASPER_ENABLED` 环境变量的值动态加载
-2. 插件位于 Bootstrap 插件之前加载，确保优先级正确
-3. TypeScript 类型检查错误是因为依赖尚未安装，运行 `bun install` 后会解决
+1. The plugin will be dynamically loaded based on the `CASPER_ENABLED` environment variable
+2. The plugin is loaded before the Bootstrap plugin to ensure correct priority
+3. TypeScript type check errors are due to dependencies not being installed yet; running `bun install` will resolve them
 
-## 下一步
+## Next Steps
 
-1. 安装依赖：`bun install` 或 `npm install`
-2. 启动 agent：`bun run start` 或 `npm run start`
-3. 验证插件是否正确加载和运行
+1. Install dependencies: `bun install` or `npm install`
+2. Start agent: `bun run start` or `npm run start`
+3. Verify the plugin loads and runs correctly
 
-## 故障排除
+## Troubleshooting
 
-如果插件未正确加载：
-1. 检查 `.env` 文件中 `CASPER_ENABLED=true` 是否设置
-2. 确认 `@suxinmin/plugin-casper` 已正确安装在 node_modules 中
-3. 查看启动日志中是否有插件加载相关的信息
+If the plugin doesn't load correctly:
+1. Check if `CASPER_ENABLED=true` is set in `.env` file
+2. Confirm `@suxinmin/plugin-casper` is correctly installed in node_modules
+3. Check startup logs for plugin loading information

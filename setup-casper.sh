@@ -1,44 +1,44 @@
 #!/bin/bash
-# Casper 插件集成 - 快速启动脚本
+# Casper Plugin Integration - Quick Start Script
 
 echo "======================================"
-echo "  Casper 插件集成 - 快速启动"
+echo "  Casper Plugin Integration - Quick Start"
 echo "======================================"
 echo ""
 
-# 检查 .env 文件
+# Check .env file
 if [ ! -f .env ]; then
-    echo "❌ 错误: .env 文件不存在"
-    echo "请复制 .env.example 到 .env 并配置必要的环境变量"
+    echo "❌ Error: .env file does not exist"
+    echo "Please copy .env.example to .env and configure necessary environment variables"
     exit 1
 fi
 
-# 检查 CASPER_ENABLED
+# Check CASPER_ENABLED
 if grep -q "CASPER_ENABLED=true" .env; then
-    echo "✅ Casper 插件已启用"
+    echo "✅ Casper plugin is enabled"
 else
-    echo "⚠️  警告: Casper 插件未启用"
-    echo "在 .env 文件中添加: CASPER_ENABLED=true"
+    echo "⚠️  Warning: Casper plugin is not enabled"
+    echo "Add to .env file: CASPER_ENABLED=true"
 fi
 
 echo ""
-echo "步骤 1: 安装依赖..."
+echo "Step 1: Installing dependencies..."
 echo "--------------------------------------"
 
-# 检查是否有 bun
+# Check if bun exists
 if command -v bun &> /dev/null; then
-    echo "使用 Bun 安装依赖..."
+    echo "Using Bun to install dependencies..."
     bun install @suxinmin/plugin-casper
 elif command -v npm &> /dev/null; then
-    echo "使用 NPM 安装依赖..."
+    echo "Using NPM to install dependencies..."
     npm install @suxinmin/plugin-casper
 else
-    echo "❌ 错误: 未找到 bun 或 npm"
+    echo "❌ Error: bun or npm not found"
     exit 1
 fi
 
 echo ""
-echo "步骤 2: 验证配置..."
+echo "Step 2: Verifying configuration..."
 echo "--------------------------------------"
 
 if command -v bun &> /dev/null; then
@@ -46,18 +46,18 @@ if command -v bun &> /dev/null; then
 elif command -v npx &> /dev/null; then
     npx tsx verify-casper-config.ts
 else
-    echo "跳过验证（需要 bun 或 tsx）"
+    echo "Skipping verification (requires bun or tsx)"
 fi
 
 echo ""
-echo "步骤 3: 启动 Agent..."
+echo "Step 3: Starting Agent..."
 echo "--------------------------------------"
-echo "运行以下命令启动 agent:"
+echo "Run the following command to start agent:"
 echo ""
 echo "  bun run start"
-echo "  或"
+echo "  or"
 echo "  npm run start"
 echo ""
 echo "======================================"
-echo "  完成！"
+echo "  Complete!"
 echo "======================================"
